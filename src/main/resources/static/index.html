@@ -119,15 +119,15 @@
       <svg class="uml-connectors" viewBox="0 0 1000 800" role="img" aria-label="Relaciones entre las clases del patrón Memento">
           <defs>
             <marker id="uml-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#71807b"></path>
+              <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#71807b" stroke-width="1.5"></path>
             </marker>
             <marker id="uml-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#087e72"></path>
+              <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#087e72" stroke-width="1.5"></path>
             </marker>
           </defs>
-          <path class="uml-edge uml-dependency" data-from="terminal" data-to="pedido" d="M350 95 H190 V280" marker-end="url(#uml-arrow)"></path>
-          <path class="uml-edge uml-dependency" data-from="terminal" data-to="historial" d="M650 95 H810 V280" marker-end="url(#uml-arrow)"></path>
-          <path class="uml-edge uml-dependency uml-caretaker-call" data-from="historial" data-to="pedido" d="M810 280 V245 H225 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-association" data-from="terminal" data-to="pedido" d="M350 95 H190 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-association" data-from="terminal" data-to="historial" d="M650 95 H810 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-dependency uml-caretaker-call" data-from="historial" data-to="pedido" d="M650 360 H625 V245 H225 V280" marker-end="url(#uml-arrow)"></path>
           <path class="uml-edge uml-dependency" data-from="pedido" data-to="memento" d="M350 400 H390" marker-end="url(#uml-arrow)"></path>
           <path class="uml-edge uml-aggregation" data-from="memento" data-to="historial" d="M595 390 H642"></path>
           <polygon class="uml-diamond uml-diamond-open" points="642,382 650,390 642,398 634,390"></polygon>
