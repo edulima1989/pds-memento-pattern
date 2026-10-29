@@ -48,10 +48,10 @@ Maven compila el proyecto para Java 21 y ejecuta las pruebas con JUnit 5. La sui
 
 ## Ejecutar la interfaz web
 
-En una terminal, desde la raíz del proyecto, ejecuta:
+Las pruebas se ejecutan por separado con `mvn clean test`. Para iniciar solamente la interfaz web, desde la raíz del proyecto ejecuta:
 
 ```bash
-mvn clean test
+mvn compile
 mvn exec:java -Dexec.mainClass=ec.restaurante.memento.Main
 ```
 
