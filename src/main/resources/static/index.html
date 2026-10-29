@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f6f4">
+  <title>Pedido de mesa | Memento</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">M</div>
+      <div>
+        <p class="eyebrow">LABORATORIO DE PATRONES</p>
+        <h1>Pedido de mesa</h1>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="table-label"><span class="table-dot"></span><span>Mesa <strong id="table-number">08</strong></span></div>
+      <button class="button button-quiet" id="reset-button" type="button">Reiniciar ejercicio</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="order-column" aria-labelledby="order-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">TERMINAL DEL MESERO</p>
+          <h2 id="order-title">Pedido actual</h2>
+        </div>
+        <div class="total-block"><span>Total</span><strong id="order-total">$0.00</strong></div>
+      </div>
+
+      <form class="add-form" id="add-form">
+        <label class="field field-dish">
+          <span>Plato del menú</span>
+          <select id="dish-select" name="plato" required></select>
+        </label>
+        <label class="field field-quantity">
+          <span>Cantidad</span>
+          <input id="add-quantity" name="cantidad" type="number" min="1" max="99" value="1" required>
+        </label>
+        <button class="button button-primary add-button" type="submit"><span aria-hidden="true">+</span> Agregar</button>
+      </form>
+
+      <div class="order-list-heading">
+        <h3>Líneas del pedido</h3>
+        <span class="count-label" id="line-count">0 platos</span>
+      </div>
+      <div class="order-list" id="order-lines" aria-live="polite"></div>
+
+      <form class="notes-form" id="notes-form">
+        <label class="field">
+          <span>Indicaciones para cocina</span>
+          <textarea id="order-notes" name="notas" maxlength="500" rows="3" placeholder="Ej. sin cebolla, término medio"></textarea>
+        </label>
+        <div class="notes-footer">
+          <span class="hint" id="notes-hint">Las notas también forman parte de la instantánea.</span>
+          <button class="button button-secondary" type="submit">Guardar notas</button>
+        </div>
+      </form>
+
+      <div class="history-controls">
+        <div class="undo-controls">
+          <button class="button button-secondary" id="undo-button" type="button" disabled><span aria-hidden="true">↶</span> Deshacer</button>
+          <button class="button button-secondary" id="redo-button" type="button" disabled><span aria-hidden="true">↷</span> Rehacer</button>
+        </div>
+        <p class="hint" id="keyboard-hint">Cada cambio se guarda antes de aplicarse.</p>
+      </div>
+      <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="learning-column" aria-labelledby="learning-title">
+      <div class="section-heading learning-heading">
+        <div>
+          <p class="eyebrow">MEMENTO EN ACCIÓN</p>
+          <h2 id="learning-title">¿Qué ocurre?</h2>
+        </div>
+        <span class="pattern-tag">BEHAVIORAL</span>
+      </div>
+
+      <section class="event-panel" aria-labelledby="event-title">
+        <div class="event-label"><span class="pulse-dot"></span><h3 id="event-title">Último evento</h3></div>
+        <p id="event-description">Agrega un plato para observar cómo se registra y cambia el estado.</p>
+      </section>
+
+      <section class="snapshot-section" aria-labelledby="snapshot-title">
+        <div class="history-heading">
+          <h3 id="snapshot-title">Instantáneas guardadas</h3>
+          <span class="stack-count" id="stack-count">0 deshacer · 0 rehacer</span>
+        </div>
+        <div class="stacks">
+          <div class="stack-column">
+            <div class="stack-title"><span class="stack-indicator undo-indicator"></span><span>Deshacer</span><span id="undo-count">0</span></div>
+            <ol class="stack-list" id="undo-history"></ol>
+          </div>
+          <div class="stack-column">
+            <div class="stack-title"><span class="stack-indicator redo-indicator"></span><span>Rehacer</span><span id="redo-count">0</span></div>
+            <ol class="stack-list" id="redo-history"></ol>
+          </div>
+        </div>
+      </section>
+
+      <div class="memento-note"><span aria-hidden="true">i</span><p>El historial conoce la descripción y la fecha; <strong>PedidoMesa</strong> es quien restaura los datos del memento.</p></div>
+    </aside>
+  </main>
+  <section class="uml-panel" aria-labelledby="uml-title">
+    <div class="uml-heading">
+      <div>
+        <p class="eyebrow">ESTRUCTURA DEL PATRÓN</p>
+        <h2 id="uml-title">Diagrama de clases UML</h2>
+      </div>
+      <span class="diagram-progress" id="diagram-progress" aria-live="polite">Esperando una acción</span>
+    </div>
+    <div class="uml-scroll" tabindex="0" aria-label="Diagrama UML desplazable">
+      <div class="uml-canvas">
+      <svg class="uml-connectors" viewBox="0 0 1000 800" role="img" aria-label="Relaciones entre las clases del patrón Memento">
+          <defs>
+            <marker id="uml-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#71807b"></path>
+            </marker>
+            <marker id="uml-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#087e72"></path>
+            </marker>
+          </defs>
+          <path class="uml-edge uml-dependency" data-from="terminal" data-to="pedido" d="M350 95 H190 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-dependency" data-from="terminal" data-to="historial" d="M650 95 H810 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-dependency uml-caretaker-call" data-from="historial" data-to="pedido" d="M810 280 V245 H225 V280" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-dependency" data-from="pedido" data-to="memento" d="M350 400 H390" marker-end="url(#uml-arrow)"></path>
+          <path class="uml-edge uml-aggregation" data-from="memento" data-to="historial" d="M595 390 H642"></path>
+          <polygon class="uml-diamond uml-diamond-open" points="642,382 650,390 642,398 634,390"></polygon>
+          <path class="uml-edge uml-composition" data-from="pedido" data-to="linea" d="M210 552 V590 H470 V616"></path>
+          <polygon class="uml-diamond uml-diamond-filled" points="210,552 218,560 210,568 202,560"></polygon>
+          <path class="uml-edge uml-aggregation" data-from="memento" data-to="linea" d="M490 512 V616"></path>
+          <polygon class="uml-diamond uml-diamond-open" points="490,512 498,520 490,528 482,520"></polygon>
+          <path class="uml-edge uml-association" data-from="linea" data-to="plato" d="M400 690 H205" marker-end="url(#uml-arrow)"></path>
+          <text class="uml-multiplicity" x="220" y="582">1</text>
+          <text class="uml-multiplicity" x="475" y="610">0..*</text>
+          <text class="uml-multiplicity" x="505" y="540">1</text>
+          <text class="uml-multiplicity" x="505" y="610">0..*</text>
+          <text class="uml-multiplicity" x="603" y="380">0..*</text>
+          <text class="uml-multiplicity" x="655" y="380">1</text>
+          <text class="uml-multiplicity" x="370" y="680">0..*</text>
+          <text class="uml-multiplicity" x="215" y="680">1</text>
+        </svg>
+
+        <button class="uml-node diagram-node uml-terminal" type="button" data-role="terminal" aria-pressed="false" aria-label="TerminalMesero, participante Client">
+          <span class="uml-class-name">TerminalMesero</span>
+          <span class="uml-compartment">- pedido: PedidoMesa<br>- historial: HistorialPedido</span>
+          <span class="uml-compartment">+ agregarPlato(...): void<br>+ quitarPlato(nombre): void<br>+ cambiarCantidad(...): void<br>+ cambiarNotas(...): void<br>+ deshacer() / rehacer()</span>
+        </button>
+
+        <button class="uml-node diagram-node uml-pedido" type="button" data-role="pedido" aria-pressed="false" aria-label="PedidoMesa, participante Originator">
+          <span class="uml-class-name">PedidoMesa</span>
+          <span class="uml-compartment">- numeroMesa: int<br>- lineas: List&lt;LineaPedido&gt;<br>- notas: String</span>
+          <span class="uml-compartment">+ agregarPlato(...): void<br>+ quitarPlato(nombre): void<br>+ cambiarCantidad(...): void<br>+ cambiarNotas(...): void<br>+ calcularTotal(): double<br>+ guardar(...): MementoPedido<br>+ restaurar(memento): void</span>
+        </button>
+
+        <button class="uml-node diagram-node uml-memento" type="button" data-role="memento" aria-pressed="false" aria-label="MementoPedido, participante Memento">
+          <span class="uml-class-name">MementoPedido</span>
+          <span class="uml-compartment">- lineas: List&lt;LineaPedido&gt;<br>- notas: String<br>- descripcion: String<br>- fechaHora: LocalDateTime</span>
+          <span class="uml-compartment">+ getLineas(): List&lt;LineaPedido&gt;<br>+ getNotas(): String<br>+ getDescripcion(): String<br>+ getFechaHora(): LocalDateTime</span>
+        </button>
+
+        <button class="uml-node diagram-node uml-historial" type="button" data-role="historial" aria-pressed="false" aria-label="HistorialPedido, participante Caretaker">
+          <span class="uml-class-name">HistorialPedido</span>
+          <span class="uml-compartment">- pilaDeshacer: Deque&lt;MementoPedido&gt;<br>- pilaRehacer: Deque&lt;MementoPedido&gt;</span>
+          <span class="uml-compartment">+ guardar(pedido, descripcion): void<br>+ deshacer(pedido): boolean<br>+ rehacer(pedido): boolean<br>+ listarVersiones(): List&lt;String&gt;</span>
+        </button>
+
+        <button class="uml-node diagram-node uml-linea" type="button" data-role="linea" aria-pressed="false" aria-label="LineaPedido, clase de apoyo">
+          <span class="uml-class-name">LineaPedido</span>
+          <span class="uml-compartment">- plato: Plato<br>- cantidad: int</span>
+          <span class="uml-compartment">+ conCantidad(...): LineaPedido<br>+ calcularSubtotal(): double</span>
+        </button>
+
+        <button class="uml-node diagram-node uml-plato" type="button" data-role="plato" aria-pressed="false" aria-label="Plato, clase de apoyo">
+          <span class="uml-class-name">Plato</span>
+          <span class="uml-compartment">- nombre: String<br>- precio: double<br>- esVegetariano: boolean</span>
+        </button>
+      </div>
+    </div>
+    <div class="uml-footer">
+      <p class="uml-legend"><span><i class="legend-diamond"></i> Composición</span><span><i class="legend-diamond legend-open"></i> Agregación</span><span><i class="legend-dash"></i> Dependencia</span><span><i class="legend-line"></i> Asociación</span></p>
+      <p class="diagram-detail" id="diagram-detail" aria-live="polite">Selecciona una clase para ver su responsabilidad. Haz un cambio para seguir las relaciones.</p>
+    </div>
+  </section>
+  <footer class="page-footer"><span>Java 21</span><span>PedidoMesa · MementoPedido · HistorialPedido</span></footer>
+</body>
+</html>

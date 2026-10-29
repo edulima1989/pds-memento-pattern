@@ -46,21 +46,28 @@ Maven compila el proyecto para Java 21 y ejecuta las pruebas con JUnit 5. La sui
 - Descartar el historial de rehacer al guardar una nueva modificación.
 - Impedir la modificación de la lista de líneas de un memento.
 
-## Ejecutar la demostración
+## Ejecutar la interfaz web
 
-Primero compila el proyecto y ejecuta las pruebas; luego inicia la demostración de consola:
+En una terminal, desde la raíz del proyecto, ejecuta:
 
 ```bash
 mvn clean test
-java -cp target/classes ec.restaurante.memento.Main
+mvn exec:java -Dexec.mainClass=ec.restaurante.memento.Main
 ```
 
-La salida muestra el pedido inicial, las modificaciones realizadas y el resultado de dos operaciones de deshacer y dos de rehacer. Al final lista las versiones disponibles en el historial.
+Abre [http://localhost:8080](http://localhost:8080). La página se conecta al modelo Java: puedes agregar y quitar platos, cambiar cantidades y notas, deshacer, rehacer o reiniciar el ejercicio. El diagrama interactivo resalta en secuencia los participantes que intervienen en cada operación; también puedes seleccionar un participante para consultar su responsabilidad. El panel muestra las dos pilas del historial.
+
+Para usar otro puerto, define la variable `PORT` antes de iniciar Maven. En Windows CMD, por ejemplo:
+
+```cmd
+set PORT=8081 && mvn exec:java -Dexec.mainClass=ec.restaurante.memento.Main
+```
 
 ## Estructura
 
 ```text
 src/
-├── main/java/ec/restaurante/memento/  # Implementación
+├── main/java/ec/restaurante/memento/  # Dominio Memento y servidor web
+├── main/resources/static/             # Interfaz web
 └── test/java/ec/restaurante/memento/  # Pruebas unitarias
 ```
